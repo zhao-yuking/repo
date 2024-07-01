@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.swpu.tjx.mapper.MaterialsMapper">
+
+    <resultMap id="BaseResultMap" type="com.swpu.tjx.domain.Materials">
+            <id property="materialsId" column="materials_id" jdbcType="BIGINT"/>
+            <result property="team1" column="team1" jdbcType="VARCHAR"/>
+            <result property="team2" column="team2" jdbcType="VARCHAR"/>
+            <result property="team3" column="team3" jdbcType="VARCHAR"/>
+            <result property="team4" column="team4" jdbcType="VARCHAR"/>
+            <result property="teachingThing" column="teaching_thing" jdbcType="VARCHAR"/>
+            <result property="teachingReport" column="teaching_report" jdbcType="VARCHAR"/>
+            <result property="personProgram" column="person_program" jdbcType="VARCHAR"/>
+            <result property="classInformation" column="class_information" jdbcType="VARCHAR"/>
+            <result property="textbook" column="Textbook" jdbcType="VARCHAR"/>
+            <result property="workId" column="work_id" jdbcType="BIGINT"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        materials_id,team1,team2,
+        team3,team4,teaching_thing,
+        teaching_report,person_program,class_information,
+        Textbook,work_id
+    </sql>
+</mapper>
