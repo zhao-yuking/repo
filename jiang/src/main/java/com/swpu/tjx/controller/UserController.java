@@ -5,10 +5,7 @@ import com.swpu.tjx.service.UserService;
 import com.swpu.tjx.service.impl.UserServiceImpl;
 import com.swpu.tjx.utils.ResponseMessage;
 import org.apache.ibatis.annotations.ResultMap;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -27,7 +24,7 @@ public class UserController {
         return responseMessage;
     }
 
-    //http://localhost:9001/front/user/UpdatePwd
+    //http://localhost:9001/front/user/UpdatePwd      //用户更改密码接口
     @PostMapping("/UpdatePwd")
     public ResponseMessage UpdatePwd(String userPassword,String newPassword,String reNewPassword,HttpServletRequest request){
         if(StringUtils.isBlank(newPassword)){
@@ -43,5 +40,13 @@ public class UserController {
 
         return responseMessage;
     }
-
+    //http://localhost:9001/front/user/UserLogout     //用户退出登录接口
+    @GetMapping("UserLogout")
+    public ResponseMessage UserLogout(HttpServletRequest request){
+        if(request == null){
+            return new ResponseMessage(500,"未登录");
+        }
+        ResponseMessage responseMessage = userService.UserLogout(request);
+        return responseMessage;
+    }
 }

@@ -16,4 +16,6 @@ public interface UserService extends IService<User> {
     ResponseMessage UserLogin(String userAccount, String userPassword, HttpServletRequest request);
 
     ResponseMessage UpdatePwd(String userPassword, String newPassword, HttpServletRequest request);
+
+    ResponseMessage UserLogout(HttpServletRequest request);
 }

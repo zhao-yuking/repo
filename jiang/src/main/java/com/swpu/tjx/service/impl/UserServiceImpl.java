@@ -101,6 +101,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
             return new ResponseMessage(200,"更改密码成功");
         }
     }
+
+    @Override
+    public ResponseMessage UserLogout(HttpServletRequest request){
+        request.getSession().removeAttribute(USER_LOGIN_STATE);
+        return new ResponseMessage(200,"退出登录成功");
+    }
 }
 
 
