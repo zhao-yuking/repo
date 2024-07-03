@@ -1,6 +1,17 @@
 server:
   port: 9001
+  tomcat:
+    max-swallow-size: 100MB
+    max-http-form-post-size: 100MB
 spring:
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 100MB
+      file-size-threshold: 100MB
+      max-request-size: 100MB
+
+
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/ry-test?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useSSL=false
@@ -27,6 +38,9 @@ mybatis-plus:
     map-underscore-to-camel-case: true
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
+file:
+  upload:
+    dir: F:/work/test
 
 
 

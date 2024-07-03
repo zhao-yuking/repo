@@ -58,7 +58,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
                 .eq("user_account", userAccount)
                 .eq("user_password", userPassword));
         if(user == null){
-            return new ResponseMessage(404,"账号不存在");
+            return new ResponseMessage(404,"账号密码错误");
         }
         //将登录对象存入session
         request.getSession().setAttribute(USER_LOGIN_STATE,user);
