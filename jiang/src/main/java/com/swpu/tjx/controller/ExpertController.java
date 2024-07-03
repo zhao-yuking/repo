@@ -30,6 +30,9 @@ public class ExpertController {
     @GetMapping("WorkList")
     public ResponseMessage WorkList(HttpServletRequest request){
         User user =(User) request.getSession().getAttribute(USER_LOGIN_STATE);
+        if(user == null){
+            return new ResponseMessage(500,"查询失败，未登录");
+        }
         if(user.getStatus()!=JUDGE_ROLE){
             return new ResponseMessage(500,"查询失败，非评委");
         }
@@ -40,6 +43,9 @@ public class ExpertController {
     //http://localhost:8091/front/expert/ExpertWork //评委加载材料信息
     public ResponseMessage ExpertWork(HttpServletRequest request,Long workId){
         User user =(User) request.getSession().getAttribute(USER_LOGIN_STATE);
+        if(user == null){
+            return new ResponseMessage(500,"查询失败，未登录");
+        }
         if(user.getStatus()!=JUDGE_ROLE){
             return new ResponseMessage(500,"查询失败，非评委");
         }
@@ -51,10 +57,27 @@ public class ExpertController {
     @PostMapping("downFile")
     public ResponseMessage downFile(HttpServletRequest request,String workName, String fileName, HttpServletResponse response){
         User user =(User) request.getSession().getAttribute(USER_LOGIN_STATE);
+        if(user == null){
+            return new ResponseMessage(500,"查询失败，未登录");
+        }
         if(user.getStatus()!=JUDGE_ROLE){
             return new ResponseMessage(500,"查询失败，非评委");
         }
         ResponseMessage responseMessage = materialsService.downFile(workName, fileName, response);
+        return responseMessage;
+    }
+
+    //http://localhost:8091/front/expert/getScore //评委下载
+    @PostMapping("getScore")
+    public ResponseMessage getScore(HttpServletRequest request,Long workId,Double Score,String des){
+        User user =(User) request.getSession().getAttribute(USER_LOGIN_STATE);
+        if(user == null){
+            return new ResponseMessage(500,"查询失败，未登录");
+        }
+        if(user.getStatus()!=JUDGE_ROLE){
+            return new ResponseMessage(500,"查询失败，非评委");
+        }
+        ResponseMessage responseMessage = materialsService.getScore(workId,Score,des);
         return responseMessage;
     }
 }

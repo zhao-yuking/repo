@@ -3,7 +3,6 @@ package com.swpu.tjx.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.swpu.tjx.domain.Materials;
-import com.swpu.tjx.domain.Work;
 import com.swpu.tjx.utils.ResponseMessage;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -21,4 +20,6 @@ public interface MaterialsService extends IService<Materials> {
     ResponseMessage ExpertWork(HttpServletRequest request,Long workId);
 
     ResponseMessage downFile(String workName, String fileName, HttpServletResponse response);
+
+    ResponseMessage getScore(Long workId, Double score,String des);
 }

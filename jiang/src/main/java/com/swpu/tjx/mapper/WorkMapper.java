@@ -3,6 +3,7 @@ package com.swpu.tjx.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.swpu.tjx.domain.Work;
+import org.apache.ibatis.annotations.Update;
 
 /**
 * @author 朝俞
@@ -12,6 +13,8 @@ import com.swpu.tjx.domain.Work;
 */
 public interface WorkMapper extends BaseMapper<Work> {
 
+    @Update("UPDATE `work` SET work_scord = #{score},work_opinion= #{des} WHERE work_id = #{workId}")
+    void updateThescore(Long workId, Double score,String des);
 }
 
 

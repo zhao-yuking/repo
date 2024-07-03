@@ -7,10 +7,10 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.swpu.tjx.domain.Materials;
 import com.swpu.tjx.domain.Work;
 import com.swpu.tjx.mapper.MaterialsMapper;
+import com.swpu.tjx.mapper.WorkMapper;
 import com.swpu.tjx.service.MaterialsService;
 import com.swpu.tjx.utils.ResponseMessage;
 import org.apache.commons.io.FileUtils;
-import org.bouncycastle.pqc.crypto.newhope.NHOtherInfoGenerator;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -34,6 +34,8 @@ import static com.swpu.tjx.contant.UserConstant.WORK_OWN;
 @Service
 public class MaterialsServiceImpl extends ServiceImpl<MaterialsMapper, Materials>
     implements MaterialsService {
+    @Resource
+    private WorkMapper workMapper;
     @Resource
     private MaterialsMapper materialsMapper;
     @Value("${file.upload.dir}")
@@ -147,6 +149,12 @@ public class MaterialsServiceImpl extends ServiceImpl<MaterialsMapper, Materials
             return new ResponseMessage(500,"下载失败");
         }
         return new ResponseMessage(200,"下载成功",result.toString());
+    }
+
+    @Override
+    public ResponseMessage getScore(Long workId, Double score,String des) {
+        workMapper.updateThescore(workId,score,des);
+        return new ResponseMessage(200,"评分成功");
     }
 
 
