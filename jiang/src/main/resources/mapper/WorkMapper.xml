@@ -15,12 +15,13 @@
             <result property="workPublicity" column="work_publicity" jdbcType="VARCHAR"/>
             <result property="phone" column="phone" jdbcType="VARCHAR"/>
             <result property="creatTime" column="creat_time" jdbcType="TIMESTAMP"/>
+            <result property="userId" column="user_id" jdbcType="BIGINT"/>
     </resultMap>
 
     <sql id="Base_Column_List">
         work_id,work_name,work_group,
         work_school,work_team,work_eligibility,
         work_entry,work_publicity,phone,
-        creat_time
+        creat_time,user_id
     </sql>
 </mapper>

@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Date;
 
 /**
@@ -62,8 +63,11 @@ public class Work implements Serializable {
     /**
      * 上传时间
      */
-    private Date creatTime;
-
+    private LocalDate creatTime;
+    /**
+     * 拥有者
+     */
+    private Long userId;
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
 
@@ -196,14 +200,22 @@ public class Work implements Serializable {
     /**
      * 上传时间
      */
-    public Date getCreatTime() {
+    public LocalDate getCreatTime() {
         return creatTime;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     /**
      * 上传时间
      */
-    public void setCreatTime(Date creatTime) {
+    public void setCreatTime(LocalDate creatTime) {
         this.creatTime = creatTime;
     }
 

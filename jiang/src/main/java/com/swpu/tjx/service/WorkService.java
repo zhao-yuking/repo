@@ -2,7 +2,12 @@ package com.swpu.tjx.service;
 
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.swpu.tjx.domain.User;
 import com.swpu.tjx.domain.Work;
+import com.swpu.tjx.utils.ResponseMessage;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
 * @author 朝俞
@@ -11,4 +16,5 @@ import com.swpu.tjx.domain.Work;
 */
 public interface WorkService extends IService<Work> {
 
+    ResponseMessage UploadFile(MultipartFile[] multipartFiles, HttpServletRequest request,Work work);
 }

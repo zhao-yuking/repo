@@ -5,6 +5,7 @@ package com.swpu.tjx.contant;
  */
 public interface UserConstant {
     String USER_LOGIN_STATE = "userLoginState";
+    String WORK_OWN = "workOwn";
 
     //----------权限常量-----
     int ADMIN_ROLE = 2;   //管理员权限
