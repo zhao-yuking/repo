@@ -1,6 +1,7 @@
 package com.swpu.tjx.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
 import com.swpu.tjx.domain.Materials;
@@ -9,14 +10,17 @@ import com.swpu.tjx.mapper.MaterialsMapper;
 import com.swpu.tjx.service.MaterialsService;
 import com.swpu.tjx.utils.ResponseMessage;
 import org.apache.commons.io.FileUtils;
+import org.bouncycastle.pqc.crypto.newhope.NHOtherInfoGenerator;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -114,6 +118,38 @@ public class MaterialsServiceImpl extends ServiceImpl<MaterialsMapper, Materials
         }
         return new ResponseMessage(200,"上传材料信息成功",jsonObject);
     }
+    //根据用户信息和参赛作品id进行查询作品材料进行打分
+    @Override
+    public ResponseMessage ExpertWork(HttpServletRequest request, Long workId) {
+        Materials materials = materialsMapper.selectOne(new QueryWrapper<Materials>().eq("work_id", workId));
+        return new ResponseMessage(200,"查询参赛材料成功",materials);
+    }
+
+    @Override
+    public ResponseMessage downFile(String workName, String fileName, HttpServletResponse response) {
+        JSONObject result = new JSONObject();
+        File file = new File(uploadFilePath+"/"+workName+"/"+fileName);
+        if(!file.exists()){
+            return new ResponseMessage(500,"下载失败");
+        }
+        response.reset();
+        response.setContentType("application/octet-stream");
+        response.setCharacterEncoding("utf-8");
+        response.setContentLength((int) file.length());
+        response.setHeader("Content-Disposition","attachment;filename="+fileName);
+
+        try {
+            byte[] readBytes = FileUtils.readFileToByteArray(file);
+            OutputStream os = response.getOutputStream();
+            os.write(readBytes);
+            result.put("sucess","下载成功");
+        } catch (IOException e) {
+            return new ResponseMessage(500,"下载失败");
+        }
+        return new ResponseMessage(200,"下载成功",result.toString());
+    }
+
+
 }
 
 

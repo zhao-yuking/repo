@@ -3,10 +3,12 @@ package com.swpu.tjx.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.swpu.tjx.domain.Materials;
+import com.swpu.tjx.domain.Work;
 import com.swpu.tjx.utils.ResponseMessage;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
 * @author 朝俞
@@ -16,4 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 public interface MaterialsService extends IService<Materials> {
 
     ResponseMessage UploadFile(MultipartFile[] multipartFiles, HttpServletRequest request);
+    ResponseMessage ExpertWork(HttpServletRequest request,Long workId);
+
+    ResponseMessage downFile(String workName, String fileName, HttpServletResponse response);
 }

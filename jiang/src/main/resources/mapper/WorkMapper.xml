@@ -16,12 +16,15 @@
             <result property="phone" column="phone" jdbcType="VARCHAR"/>
             <result property="creatTime" column="creat_time" jdbcType="VARCHAR"/>
             <result property="userId" column="user_id" jdbcType="BIGINT"/>
+            <result property="workScord" column="work_scord" jdbcType="DOUBLE"/>
+            <result property="workOpinion" column="work_opinion" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="Base_Column_List">
         work_id,work_name,work_group,
         work_school,work_team,work_eligibility,
         work_entry,work_publicity,phone,
-        creat_time,user_id
+        creat_time,user_id,work_scord,
+        work_opinion
     </sql>
 </mapper>

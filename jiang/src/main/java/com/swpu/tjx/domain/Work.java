@@ -68,6 +68,16 @@ public class Work implements Serializable {
      * 拥有者
      */
     private Long userId;
+
+    /**
+     * 评委意见
+     */
+    private String workOpinion;
+
+    /**
+     * 评委打分
+     */
+    private Double workScord;
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
 
