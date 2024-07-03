@@ -4,6 +4,7 @@ package com.swpu.tjx.service.impl;
 
 import ch.qos.logback.core.util.FileUtil;
 import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.swpu.tjx.domain.User;
 import com.swpu.tjx.domain.Work;
@@ -20,6 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static com.swpu.tjx.contant.UserConstant.USER_LOGIN_STATE;
@@ -71,8 +73,12 @@ public class WorkServiceImpl extends ServiceImpl<WorkMapper, Work>
             User user = (User) request.getSession().getAttribute(USER_LOGIN_STATE);
             jsonObject.put("user", user.toString());
             work.setUserId(user.getUserId());
-            LocalDate time = LocalDate.now();
-            work.setCreatTime(time);
+            LocalDateTime utc = LocalDateTime.now();
+            String str = String.valueOf(utc);
+            String[] res = str.split("T");
+            String[] second = res[1].split("\\.");
+            String timeNew = res[0]+" "+second[0];
+            work.setCreatTime(timeNew);
             jsonObject.put("work", work.toString());
             workMapper.insert(work);
             request.getSession().setAttribute(WORK_OWN,work);
@@ -80,6 +86,13 @@ public class WorkServiceImpl extends ServiceImpl<WorkMapper, Work>
             return new ResponseMessage(500,"添加信息错误",e);
         }
         return new ResponseMessage(200,"文件上传成功",jsonObject);
+    }
+    //评委界面加载所有作品信息
+    @Override
+    public ResponseMessage WorkList() {
+
+        List<Work> works = workMapper.selectList(new QueryWrapper<Work>().orderByDesc("work_id"));
+        return new ResponseMessage(200,"作品加载成功",works);
     }
 
 }

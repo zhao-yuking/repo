@@ -14,7 +14,7 @@
             <result property="workEntry" column="work_entry" jdbcType="VARCHAR"/>
             <result property="workPublicity" column="work_publicity" jdbcType="VARCHAR"/>
             <result property="phone" column="phone" jdbcType="VARCHAR"/>
-            <result property="creatTime" column="creat_time" jdbcType="TIMESTAMP"/>
+            <result property="creatTime" column="creat_time" jdbcType="VARCHAR"/>
             <result property="userId" column="user_id" jdbcType="BIGINT"/>
     </resultMap>
 

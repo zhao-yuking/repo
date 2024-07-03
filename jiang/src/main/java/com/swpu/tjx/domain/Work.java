@@ -63,7 +63,7 @@ public class Work implements Serializable {
     /**
      * 上传时间
      */
-    private LocalDate creatTime;
+    private String creatTime;
     /**
      * 拥有者
      */
@@ -200,7 +200,7 @@ public class Work implements Serializable {
     /**
      * 上传时间
      */
-    public LocalDate getCreatTime() {
+    public String getCreatTime() {
         return creatTime;
     }
 
@@ -215,7 +215,7 @@ public class Work implements Serializable {
     /**
      * 上传时间
      */
-    public void setCreatTime(LocalDate creatTime) {
+    public void setCreatTime(String creatTime) {
         this.creatTime = creatTime;
     }
 

@@ -20,8 +20,7 @@ import javax.validation.Valid;
 
 import java.io.IOException;
 
-import static com.swpu.tjx.contant.UserConstant.USER_LOGIN_STATE;
-import static com.swpu.tjx.contant.UserConstant.WORK_OWN;
+import static com.swpu.tjx.contant.UserConstant.*;
 
 @RestController
 @RequestMapping("/front/workfile")
@@ -39,6 +38,9 @@ public class WorkController {
         User user = (User) request.getSession().getAttribute(USER_LOGIN_STATE);
         if(user == null){
             return new ResponseMessage(500,"上传错误，请先登录");
+        }
+        if(user.getStatus()!=TEACHER_ROLE){
+            return new ResponseMessage(500,"错误，非老师身份");
         }
         if(multipartFiles == null){
             return new ResponseMessage(500,"controller:上传错误，文件为空");
@@ -62,5 +64,6 @@ public class WorkController {
 
         return responseMessage;
     }
+
 
 }

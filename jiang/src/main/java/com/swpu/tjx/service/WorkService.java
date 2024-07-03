@@ -17,4 +17,6 @@ import javax.servlet.http.HttpServletRequest;
 public interface WorkService extends IService<Work> {
 
     ResponseMessage UploadFile(MultipartFile[] multipartFiles, HttpServletRequest request,Work work);
+
+    ResponseMessage WorkList();
 }
