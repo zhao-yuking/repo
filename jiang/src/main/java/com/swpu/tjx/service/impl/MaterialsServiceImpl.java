@@ -1,11 +1,26 @@
 package com.swpu.tjx.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
 import com.swpu.tjx.domain.Materials;
+import com.swpu.tjx.domain.Work;
 import com.swpu.tjx.mapper.MaterialsMapper;
 import com.swpu.tjx.service.MaterialsService;
+import com.swpu.tjx.utils.ResponseMessage;
+import org.apache.commons.io.FileUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.swpu.tjx.contant.UserConstant.WORK_OWN;
 
 /**
 * @author 朝俞
@@ -15,7 +30,90 @@ import org.springframework.stereotype.Service;
 @Service
 public class MaterialsServiceImpl extends ServiceImpl<MaterialsMapper, Materials>
     implements MaterialsService {
-
+    @Resource
+    private MaterialsMapper materialsMapper;
+    @Value("${file.upload.dir}")
+    private String uploadFilePath;    //文件存放地址，从配置文件中取出的
+    @Override
+    public ResponseMessage UploadFile(MultipartFile[] multipartFiles, HttpServletRequest request){
+        JSONObject jsonObject = new JSONObject();
+        Work work = (Work) request.getSession().getAttribute(WORK_OWN);
+        int Mp4Len = 1;
+        Materials materials = new Materials();
+        List<String> tem1 =new ArrayList<>();
+        List<String> tem2 =new ArrayList<>();
+        List<String> tem3 =new ArrayList<>();
+        List<String> tem4 =new ArrayList<>();
+        boolean checked = false;
+        int fileNum=0;
+        try {
+            for(int i = 0; i < multipartFiles.length; i++) {
+                if(multipartFiles[i].isEmpty()){
+                    return new ResponseMessage(500,"文件上传错误");
+                }
+                String fileName = multipartFiles[i].getOriginalFilename();
+                String substring = fileName.substring(fileName.lastIndexOf("."));
+                System.out.println(substring);
+                if (".mp4".equals(substring)){
+                    System.out.println("mp4"+fileName);
+                    if(Mp4Len>=1&&Mp4Len<=3){
+                        tem1.add(fileName);
+                    }else if(Mp4Len>=4&&Mp4Len<=6){
+                        tem2.add(fileName);
+                    }else if(Mp4Len>=7&&Mp4Len<=9){
+                        tem3.add(fileName);
+                    }else{
+                        tem4.add(fileName);
+                    }
+                    Mp4Len++;
+                }else{
+                    System.out.println("mp4else"+fileName);
+                    if(!checked){
+                        checked = true;
+                        materials.setTeam1(tem1.toString());
+                        materials.setTeam2(tem2.toString());
+                        materials.setTeam3(tem3.toString());
+                        materials.setTeam4(tem4.toString());
+                    }
+                    if(fileNum == 0){
+                        materials.setTeachingThing(fileName);
+                    }else if(fileNum == 1){
+                        materials.setTeachingReport(fileName);
+                    }else if(fileNum == 2){
+                        materials.setPersonProgram(fileName);
+                    }else if(fileNum == 3){
+                        materials.setClassInformation(fileName);
+                    } else if (fileNum ==4) {
+                        materials.setTextbook(fileName);
+                    }
+                    fileNum++;
+                }
+                File fileTempObj = new File(uploadFilePath+"/"+work.getWorkName()+"/材料"+fileName);
+                //文件存放目录不存在创建目录
+                if(!fileTempObj.getParentFile().exists()){
+                    fileTempObj.getParentFile().mkdir();
+                }
+                if(fileTempObj.exists()){
+                    return new ResponseMessage(500,"上传错误文件已经存在");
+                }
+                try {
+                    FileUtils.writeByteArrayToFile(fileTempObj,multipartFiles[i].getBytes());
+                } catch (IOException e) {
+                    System.out.println("文件上传错误"+e);
+                    return new ResponseMessage(500,"文件上传错误",e);
+                }
+                jsonObject.put("file" + i, multipartFiles[i].getSize());
+            }
+        } catch (Exception e) {
+            return new ResponseMessage(500,"上传材料信息失败",e);
+        }
+        materials.setWorkId(work.getWorkId());
+        int insert = materialsMapper.insert(materials);
+        if(insert != 1){
+            return new ResponseMessage(500,"添加材料信息失败");
+        }
+        return new ResponseMessage(200,"上传材料信息成功",jsonObject);
+    }
 }
 
 

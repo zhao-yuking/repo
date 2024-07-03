@@ -3,6 +3,10 @@ package com.swpu.tjx.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.swpu.tjx.domain.Materials;
+import com.swpu.tjx.utils.ResponseMessage;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
 * @author 朝俞
@@ -11,4 +15,5 @@ import com.swpu.tjx.domain.Materials;
 */
 public interface MaterialsService extends IService<Materials> {
 
+    ResponseMessage UploadFile(MultipartFile[] multipartFiles, HttpServletRequest request);
 }
